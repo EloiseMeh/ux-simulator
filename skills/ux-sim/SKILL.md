@@ -1,6 +1,6 @@
 ---
 name: ux-sim
-description: Simulate virtual users walking through your app to find UX flaws. Run when the user wants UX feedback, user testing, flow review, or says "test the UX", "simulate users", "find UX issues", "walk through as a user", or similar.
+description: Simulate virtual users walking through your app to find UX flaws. Trigger phrases include "do user test", "test userflow", "ux test", "test the UX", "simulate users", "find UX issues", "walk through as a user", "user testing", "check the flow", "test my app", "run UX sim", "UX review", "UX audit", "how's the UX", "any UX problems", or any variation indicating the user wants UX feedback or user flow testing.
 ---
 
 # UX Simulator
