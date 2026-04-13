@@ -1,31 +1,28 @@
 # UX Simulator for Claude Code
 
-**User testing without users.** Simulate 5 virtual personas walking through your app and get a prioritized list of UX issues — in seconds, not weeks.
+**User testing without users.** 5 virtual personas walk through your app, think out loud, and flag every friction point — with file references, priority levels, and checkboxes so you can mark what to fix as you read.
 
+```markdown
+## Issues (21 total: 🔴 2  🟠 11  🟡 8)
+
+| #  | Sev  | Issue                            | Where              | Flagged by     |
+|----|------|----------------------------------|--------------------|----------------|
+| 1  | 🔴   | No confirm on grid pretzel pick  | PretzelGrid:33     | Sam, Priya     |
+| 2  | 🔴   | Drink result auto-advances       | DrinkRoulette:27   | Priya          |
+| 3  | 🟠   | No game rules or tutorial        | WelcomeScreen      | Jake, Marco    |
+
+─────────────────────────────────────────────────────────────────────
+
+PERSONA 1: Jake, 22 — First time playing, handed a phone at a bar
+
+Welcome:
+- [ ] 🟠 #3 No explanation of what the game IS. Jake sees a pretzel logo
+      and a start button but has no idea how it works (WelcomeScreen.tsx:7)
+      ✅ Big "Start Game" button is clear and obvious
+      ✅ Game logo looks polished and fun
 ```
-> /ux-sim
 
-UX Simulation Report
-====================
-Project:         Treasure Chest Launcher
-Target audience: Friends at a party, on their phones
-Personas tested: 5
-
-PERSONA 1: Mia — First time at game night, handed a phone with this open
-  ✗ [P2] No text explaining what this app is before first tap (index.html:45)
-  ✗ [P3] "Tap the box" assumes touch — desktop users see this too (index.html:67)
-  Verdict: Completes flow, but hesitates for 5+ seconds at the chest
-
-PRIORITY SUMMARY
-================
-P1 (Blocking):   2 issues
-P2 (Confusing):  6 issues
-P3 (Polish):     4 issues
-
-TOP 5 FIXES (by impact):
-1. Add a loading state for the chest animation — impatient users tap twice
-2. ...
-```
+Read through. Check the boxes. Tell Claude which numbers to fix.
 
 ---
 
@@ -37,30 +34,54 @@ claude plugin add github:EloiseMeh/ux-simulator
 
 ## How to use
 
-Run the command:
+Run the command or just say it naturally:
 
 ```
 /ux-sim
 ```
+
+> "do a user test" / "test the UX" / "test userflow" / "UX audit" / "simulate users"
 
 The skill will:
 
 1. **Read your project** — scans code, screens, components, and assets
 2. **Ask about your users** — who they are, what device, what context
 3. **Generate 5 personas** — tailored to your actual audience, not generic archetypes
-4. **Simulate each persona** — walks through every screen step by step
-5. **Report issues** — prioritized, with file:line references and suggested fixes
+4. **Simulate each persona** — walks through every screen thinking out loud
+5. **Save a report** — markdown file in `usability-test/` with checkboxes to mark issues
 
 ### Optional extra inputs
 
 For a deeper analysis, you can also provide:
 
-- **Live URL** — the skill fetches the real page to see what users see
+- **Live URL** — fetches the real page to see what users see
 - **Screenshots** — of key screens for visual analysis
 - **Figma link** — compares intended design vs implementation
 - **Flow description** — your intended user journey in plain language
 
 More inputs = better simulation. But code-only works too.
+
+---
+
+## What you get
+
+### Numbered issue chart
+Every issue gets a unique ID, color-coded severity, file reference, and which personas flagged it. Scan the chart to see the full picture in seconds.
+
+| Color | Meaning |
+|-------|---------|
+| 🔴 | **Blocking** — user gets stuck or can't proceed |
+| 🟠 | **Confusing** — user is unsure or has a bad experience |
+| 🟡 | **Polish** — minor friction, could be smoother |
+
+### Persona walkthroughs
+Full think-out-loud stories for each persona. Each issue is a checkbox — check the ones you want fixed as you read, then tell Claude the numbers.
+
+### Top 5 fixes
+Prioritized by user impact, not code complexity. The most important changes first.
+
+### What's working well
+You need to know what NOT to change too.
 
 ---
 
@@ -78,14 +99,6 @@ Each persona stress-tests a different UX dimension:
 
 Personas adapt to your audience. A drinking game gets "drunk user with bad coordination" instead of "enterprise power user."
 
-## Priority levels
-
-| Level | Meaning |
-|-------|---------|
-| **P1 — Blocking** | User gets stuck or can't proceed |
-| **P2 — Confusing** | User is unsure what to do or has a bad experience |
-| **P3 — Polish** | Minor friction, could be smoother |
-
 ## Good to know
 
 - This is **AI simulation**, not real user testing. It catches obvious issues — layout problems, missing feedback, confusing flows, accessibility gaps.
@@ -98,6 +111,8 @@ Fork and edit `skills/ux-sim/SKILL.md` to:
 - Add custom personas for your domain
 - Change the report format
 - Add project-specific checks
+
+No config files, no dependencies. Just markdown.
 
 ---
 
