@@ -94,61 +94,89 @@ Be specific. "The UX could be better" is useless. "The tap target is 30px wide o
 
 ## Phase 4: Output Report
 
-Print the full report in this format:
+**Save the report as a markdown file**, not terminal output. Create a `usability-test/` folder inside the project directory and save the report as `usability-test/report-YYYY-MM-DD.md` (using today's date).
 
+### Report structure
+
+The report has 4 sections in this order:
+
+#### Section 1: Header
+
+```markdown
+# UX Simulation Report
+
+| | |
+|---|---|
+| **Project** | <name> |
+| **Type** | <web app / mobile game / CLI / etc.> |
+| **Target audience** | <from Phase 1c> |
+| **Screens found** | <count> |
+| **Personas tested** | 5 |
+| **Inputs used** | <code, URL, screenshots, Figma — list what was available> |
+| **Date** | <today's date> |
 ```
-UX Simulation Report
-====================
-Project:         <name>
-Type:            <web app / mobile game / CLI / API / etc.>
-Target audience: <from Phase 1c>
-Screens found:   <count>
-Personas tested: 5
-Inputs used:     <code, URL, screenshots, Figma, user description — list what was available>
 
-────────────────────────────────────────
+#### Section 2: Issue summary chart
 
-PERSONA 1: <Name> — <one-line bio>
-Device: <phone/desktop/tablet>  Context: <where they're using it>
-Tests: <dimension>
+A numbered chart of ALL issues found across all personas. Each issue appears only once, even if multiple personas flagged it. Group by severity.
 
-Flow: <screen 1> → <screen 2> → <screen 3> → ...
+Color key: 🔴 = Blocking (user gets stuck), 🟠 = Confusing (bad experience), 🟡 = Polish (minor friction)
 
-  <screen 1>:
-  ✓ <what works well>
-  ✗ [P2] <issue description> (file.tsx:42)
+```markdown
+## Issues (total: 🔴 X  🟠 X  🟡 X)
 
-  <screen 2>:
-  ✓ <what works well>
-  ✗ [P1] <issue description> (file.tsx:108)
-  ✗ [P3] <issue description> (file.tsx:115)
-
-  Verdict: <completes flow / drops off at screen X / gets stuck at Y>
-
-────────────────────────────────────────
-
-PERSONA 2: ...
-(repeat for all 5)
-
-────────────────────────────────────────
-
-PRIORITY SUMMARY
-================
-P1 (Blocking):    <count> issues
-P2 (Confusing):   <count> issues
-P3 (Polish):      <count> issues
-
-TOP 5 FIXES (by impact):
-1. <most impactful fix — what to change, where, and why>
-2. ...
-3. ...
-4. ...
-5. ...
-
-WHAT'S WORKING WELL:
-- <things that are good — don't just report problems>
-- ...
+| #  | Sev  | Issue                            | Where              | Flagged by     |
+|----|------|----------------------------------|--------------------|----------------|
+| 1  | 🔴   | No confirm on grid pretzel pick  | PretzelGrid:33     | Sam, Priya     |
+| 2  | 🔴   | Drink result auto-advances       | DrinkRoulette:27   | Priya          |
+| 3  | 🟠   | No game rules or tutorial        | WelcomeScreen      | Jake, Marco    |
+| ...| ...  | ...                              | ...                | ...            |
 ```
+
+Then a **Top 5 Fixes** list ordered by user impact.
+
+#### Section 3: Persona walkthroughs
+
+Full detailed think-out-loud walkthroughs for each persona. Keep these rich and real — the user should feel like they're watching a real person use their app.
+
+Each persona section includes:
+- Name, age, one-line bio
+- Device and context
+- What dimension they test
+- Screen-by-screen walkthrough
+- One-line verdict at the end
+
+**Formatting rules for the walkthrough:**
+
+Issues are markdown checkboxes so the user can mark which ones to fix. Good observations use ✅ indented to align with the color dots. This keeps everything scannable at the same vertical line.
+
+```markdown
+### PERSONA 1: Jake, 22 — First time playing, handed a phone at a bar
+**Device:** iPhone SE · **Context:** Loud bar, no explanation · **Tests:** Discovery
+
+**Flow:** Welcome → Name Entry → Poison Pick → Truth/Dare Pick
+
+**Welcome:**
+- [ ] 🟠 #3 No explanation of what the game IS. Jake sees a pretzel logo and a start
+      button but has no idea what "Poisoned Pretzel" means or how it works
+      (WelcomeScreen.tsx:7-29)
+- [ ] 🟡 #9 No player count indicator — Jake doesn't know this is a 2-player game
+      until he's asked for Player 2's name (WelcomeScreen.tsx)
+      ✅ Big "Start Game" button is clear and obvious
+      ✅ Game logo looks polished and fun
+
+**Name Entry:**
+      ✅ Clear "Enter your name" prompt, autoFocus on input is good
+      ✅ maxLength={8} prevents overflow — smart
+- [ ] 🟡 #10 "Player 1" label is generic — "What's your name?" would feel more
+      natural (NameEntryScreen.tsx:27-29)
+```
+
+**CRITICAL formatting rule:** The ✅ lines must be indented with 6 spaces so the ✅ icon aligns vertically with the 🟠/🟡/🔴 dots on the checkbox lines. The text after `- [ ] ` is 6 characters, so `      ✅` (6 spaces + ✅) creates perfect alignment.
+
+#### Section 4: What's working well
+
+A bullet list of things that are good about the UX. The user needs to know what NOT to change.
 
 ### Important guidelines for the report:
 - **Be honest but constructive** — flag real issues, don't invent problems to seem thorough
@@ -156,3 +184,5 @@ WHAT'S WORKING WELL:
 - **Be specific** — file:line references, exact pixel values, exact wording that's confusing
 - **Prioritize ruthlessly** — the Top 5 Fixes should be ordered by user impact, not code complexity
 - **Don't suggest rewrites** — suggest the minimum change that fixes the issue
+- **Deduplicate** — if 3 personas hit the same issue, it's ONE issue in the chart with all 3 names in the "Flagged by" column
+- After saving the file, tell the user the file path and say: "Read through, check the boxes on issues you want fixed, then tell me which numbers to fix."
