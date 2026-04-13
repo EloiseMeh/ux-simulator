@@ -1,0 +1,8 @@
+{
+  "name": "ux-simulator",
+  "description": "Simulate virtual users walking through your app to find UX issues — user testing without users",
+  "version": "1.0.0",
+  "author": { "name": "EloiseMeh" },
+  "repository": "https://github.com/EloiseMeh/ux-simulator",
+  "license": "MIT"
+}
